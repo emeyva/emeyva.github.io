@@ -4,6 +4,11 @@ title: About
 permalink: /about/
 ---
 
-Dedicated SAP Integration Consultant with a robust history of adeptly bridging intricate systems and optimizing business workflows. At SAP, I spearhead innovation as an Integration Consultant, focusing on SAP Business Technology Platform (BTP), SAP Integration Suite, and SAP Kyma runtime. Beyond my expertise in integration, I'm deeply passionate about the realms of AI and machine learning, particularly fascinated by neural networks.
+Hard-working and innovative problem-solver, currently a Development Consultant at
+SAP. Previously, I worked as a Software Developer at Nokia. In 2019, I earned a BEng
+in Computers with Electronics from the University of Essex. Driven by a passion for
+technology and a deep interest in AI, particularly deep learning, I thrive on tackling
+complex logic problems with real-world impact. I speak Portuguese, Spanish, English
+and I am currently learning French
 
-My CV is available [here]({{ site.url }}/download/cv-euricopinto-jan2024.pdf)
+Check my [Curriculum](/jekyll/update/2024/04/20/cv.html)
