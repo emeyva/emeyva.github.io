@@ -1,0 +1,24 @@
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="site-logo" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="site-nav" id="site-nav">
+      {% for link in site.navigation %}
+      <a href="{{ link.url | relative_url }}" {% if page.url contains link.url %}class="active"{% endif %}>{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</header>
+
+<script>
+  document.querySelector('.menu-toggle').addEventListener('click', function () {
+    const nav = document.getElementById('site-nav');
+    const expanded = this.getAttribute('aria-expanded') === 'true';
+    this.setAttribute('aria-expanded', !expanded);
+    nav.classList.toggle('open');
+  });
+</script>

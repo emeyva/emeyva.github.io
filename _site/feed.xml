@@ -1,1 +1,107 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-01-17T15:48:25+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">emeyva blog</title><subtitle>Eurico Pinto</subtitle><entry><title type="html">post with my CV</title><link href="http://localhost:4000/jekyll/update/2024/04/20/cv.html" rel="alternate" type="text/html" title="post with my CV" /><published>2024-04-20T20:19:09+01:00</published><updated>2024-04-20T20:19:09+01:00</updated><id>http://localhost:4000/jekyll/update/2024/04/20/cv</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2024/04/20/cv.html"><![CDATA[<p>Available <a href="http://localhost:4000/download/cv.pdf">here</a></p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[Available here]]></summary></entry><entry><title type="html">how to change custom domains in Kubernetes</title><link href="http://localhost:4000/jekyll/update/2024/04/20/kyma.html" rel="alternate" type="text/html" title="how to change custom domains in Kubernetes" /><published>2024-04-20T20:19:09+01:00</published><updated>2024-04-20T20:19:09+01:00</updated><id>http://localhost:4000/jekyll/update/2024/04/20/kyma</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2024/04/20/kyma.html"><![CDATA[<p>Wrote a post about Kyma and custom domains <a href="https://community.sap.com/t5/technology-blogs-by-sap/sap-btp-kyma-runtime-use-a-custom-domain-on-an-api-rule-through-istio/ba-p/13551632">here</a></p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[Wrote a post about Kyma and custom domains here]]></summary></entry></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-03-24T23:21:51+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">emeyva</title><subtitle>Eurico Pinto — engineer, curious mind, based in Portugal 🇵🇹</subtitle><entry><title type="html">How to change custom domains in Kubernetes</title><link href="http://localhost:4000/blog/2025/01/10/kyma/" rel="alternate" type="text/html" title="How to change custom domains in Kubernetes" /><published>2025-01-10T00:00:00+00:00</published><updated>2025-01-10T00:00:00+00:00</updated><id>http://localhost:4000/blog/2025/01/10/kyma</id><content type="html" xml:base="http://localhost:4000/blog/2025/01/10/kyma/"><![CDATA[<p>If you’re running workloads on Kubernetes and need to expose services under your own domain name instead of the default cluster-generated URLs, it’s not immediately obvious how to set that up — especially on managed runtimes like SAP BTP Kyma.</p>
+
+<h2 id="the-problem">The problem</h2>
+
+<p>By default, Kubernetes services are exposed through auto-generated hostnames that look something like <code class="language-plaintext highlighter-rouge">my-service.my-namespace.svc.cluster.local</code>. For internal communication that’s fine, but the moment you want external traffic hitting a nice URL like <code class="language-plaintext highlighter-rouge">api.yourdomain.com</code>, you need a few extra pieces in place.</p>
+
+<h2 id="whats-involved">What’s involved</h2>
+
+<p>At a high level, setting up a custom domain on Kubernetes requires:</p>
+
+<ul>
+  <li><strong>A domain you own</strong> and access to its DNS records</li>
+  <li><strong>An Ingress controller or API gateway</strong> — something that accepts external traffic and routes it to your services. In Kyma’s case, this is Istio’s ingress gateway</li>
+  <li><strong>TLS certificates</strong> — you’ll want HTTPS, so you need a certificate for your domain. Tools like cert-manager can automate this with Let’s Encrypt</li>
+  <li><strong>DNS configuration</strong> — a CNAME or A record pointing your domain to the ingress gateway’s external IP or load balancer</li>
+  <li><strong>An API Rule or Ingress resource</strong> — the Kubernetes object that tells the gateway which domain maps to which service</li>
+</ul>
+
+<h2 id="kyma-specifics">Kyma specifics</h2>
+
+<p>SAP BTP Kyma Runtime uses Istio as its service mesh, which means custom domains are configured through Istio’s <code class="language-plaintext highlighter-rouge">VirtualService</code> and <code class="language-plaintext highlighter-rouge">Gateway</code> resources rather than the standard Kubernetes <code class="language-plaintext highlighter-rouge">Ingress</code>. The flow is roughly:</p>
+
+<ol>
+  <li>Register your custom domain in the Kyma dashboard</li>
+  <li>Create a <code class="language-plaintext highlighter-rouge">Gateway</code> resource that listens on your domain with TLS</li>
+  <li>Create or update your <code class="language-plaintext highlighter-rouge">APIRule</code> to route traffic from the custom domain to your service</li>
+  <li>Point your DNS to the Kyma cluster’s load balancer</li>
+</ol>
+
+<p>There are some gotchas around certificate provisioning and DNS propagation, but once the pieces click together it works reliably.</p>
+
+<h2 id="full-walkthrough">Full walkthrough</h2>
+
+<p>I wrote a detailed step-by-step guide on the SAP Community blog covering the entire process with screenshots and code snippets:</p>
+
+<p><a href="https://community.sap.com/t5/technology-blogs-by-sap/sap-btp-kyma-runtime-use-a-custom-domain-on-an-api-rule-through-istio/ba-p/13551632">SAP BTP Kyma Runtime: Use a Custom Domain on an API Rule through Istio</a></p>
+
+<p>If you’re working with Kyma or any Istio-based Kubernetes setup and need custom domains, that post should get you up and running.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[If you’re running workloads on Kubernetes and need to expose services under your own domain name instead of the default cluster-generated URLs, it’s not immediately obvious how to set that up — especially on managed runtimes like SAP BTP Kyma.]]></summary></entry><entry><title type="html">My CV</title><link href="http://localhost:4000/blog/2024/04/20/cv/" rel="alternate" type="text/html" title="My CV" /><published>2024-04-20T00:00:00+01:00</published><updated>2024-04-20T00:00:00+01:00</updated><id>http://localhost:4000/blog/2024/04/20/cv</id><content type="html" xml:base="http://localhost:4000/blog/2024/04/20/cv/"><![CDATA[<p>You can download the PDF version <a href="/download/cv.pdf">here</a>.</p>
+
+<p>Below is a written summary of my background and experience.</p>
+
+<hr />
+
+<h2 id="profile">Profile</h2>
+
+<p>Hard-working and innovative problem-solver with experience across API development, cloud platforms, DevOps and AI. I’m driven by a passion for technology and a deep interest in AI, particularly deep learning. I thrive on tackling complex logic problems with real-world impact.</p>
+
+<p>I speak Portuguese (native), English (fluent), Spanish (professional) and I am currently learning French.</p>
+
+<hr />
+
+<h2 id="employment">Employment</h2>
+
+<h3 id="software-engineer--sap">Software Engineer — SAP</h3>
+<p><em>Jan 2021 — present</em></p>
+
+<p><strong>APIs and Frontend Solutions</strong> — Played a key role in an AI-driven SAP guidance solution, using TypeScript to build APIs and optimize data ingestion workflows for Retrieval-Augmented Generation (RAG) architectures running on SAP AI Core. Designed scalable APIs with Python Flask, integrating HANA DB with SQLAlchemy for database version control. Contributed to frontend work with JavaScript, HTML and CSS, and enhanced SAP chatbot capabilities with Java Spring.</p>
+
+<p><strong>Automated Migration</strong> — Developed automation scripts for asynchronous filesystem migration using Python, AzCopy, rsync and asyncio. Tested extensively on OpenSUSE virtual machines and validated performance with Azure Blob Storage.</p>
+
+<p><strong>CI/CD, Kubernetes and DevSecOps</strong> — Designed CI/CD pipelines using Jenkins and pytest. Streamlined deployments by integrating Docker images from JFrog Artifactory into Kubernetes clusters via Helm. Managed clusters, migrated microservices, configured custom domains and deployed local Redis instances. Incorporated SonarQube, Checkmarx and Vault for security and code quality.</p>
+
+<p><strong>Integration Projects</strong> — Led multiple integration projects across cloud and on-prem systems (S/4HANA, ECC, third-party). Used XSLT and Groovy for mapping, and worked with HTTPS, OData, SOAP adapters and SAP Event Mesh.</p>
+
+<p><strong>Community Building</strong> — Initiated a Portuguese AI community to share knowledge on Deep Learning, LLMs, RAG and practical use cases.</p>
+
+<h3 id="software-engineer--nokia">Software Engineer — Nokia</h3>
+<p><em>Sep 2019 — Dec 2020</em></p>
+
+<p><strong>Software Development</strong> — Developed custom Java Spring microservice applications, contributing to the design of scalable and robust solutions.</p>
+
+<p><strong>DevOps Engineering</strong> — Worked extensively with Jenkins for CI/CD. Developed and applied bash and Python scripts across multiple VMware clusters to streamline deployments.</p>
+
+<p><strong>Testing and Automation</strong> — Transitioned to a testing role, using bash and Python scripting to automate testing. Used JMeter and Robot Framework for quality and performance testing.</p>
+
+<p><strong>Cross-Functional Collaboration</strong> — Worked across different teams, gaining end-to-end understanding of the software development lifecycle from coding to testing to deployment.</p>
+
+<hr />
+
+<h2 id="education">Education</h2>
+
+<h3 id="university-of-essex">University of Essex</h3>
+<p><em>Sep 2015 — Jul 2019</em></p>
+
+<p>Bachelor of Engineering — Computers with Electronics</p>
+
+<p>Final Year Project: Mobile app to detect infected cells with Malaria.</p>
+
+<hr />
+
+<h2 id="certifications">Certifications</h2>
+
+<ul>
+  <li>SAP BTP — Integration Suite</li>
+  <li>SAP BTP — Kyma Runtime</li>
+  <li>CCNA Routing and Switching: Introduction to Networks</li>
+  <li>SAFe Practitioner</li>
+</ul>
+
+<hr />
+
+<h2 id="achievements">Achievements</h2>
+
+<h3 id="co-founder--fullstack-engineer--bacle-jobs">Co-Founder &amp; Fullstack Engineer — Bacle Jobs</h3>
+<p><em>Jan 2020 — Dec 2020</em></p>
+
+<p>Built with PostgreSQL, Express, React and Node.js. Awarded the Startup Voucher 2020 (prize: 25k EUR).</p>]]></content><author><name></name></author><summary type="html"><![CDATA[You can download the PDF version here.]]></summary></entry></feed>

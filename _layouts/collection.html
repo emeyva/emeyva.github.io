@@ -1,0 +1,32 @@
+---
+layout: default
+---
+
+<article class="page-content collection-page">
+  <header class="page-header">
+    <h1>{{ page.title | escape }}</h1>
+    {% if page.description %}
+    <p class="page-description">{{ page.description }}</p>
+    {% endif %}
+  </header>
+
+  {{ content }}
+
+  {% assign folder = page.url | split: '/' %}
+  {% assign section = folder[1] %}
+  {% assign pages_in_section = site.pages | where_exp: "p", "p.url contains section" | where_exp: "p", "p.url != page.url" | sort: "date" | reverse %}
+
+  {% if pages_in_section.size > 0 %}
+  <ul class="post-list">
+    {% for entry in pages_in_section %}
+    <li class="post-card">
+      <a href="{{ entry.url | relative_url }}">
+        {% if entry.date %}<time>{{ entry.date | date: "%b %d, %Y" }}</time>{% endif %}
+        <h3>{{ entry.title | escape }}</h3>
+        {% if entry.description %}<p>{{ entry.description }}</p>{% endif %}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</article>
